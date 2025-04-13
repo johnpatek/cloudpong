@@ -54,5 +54,15 @@ int main(int argc, char **argv)
 
 int main(int argc, const char **argv)
 {
-    return client::run(argc, argv);
+    int rc(EXIT_SUCCESS);
+    try
+    {
+        client::run(argc, argv);
+    }
+    catch(const std::exception& e)
+    {
+        rc = EXIT_FAILURE;
+        wxMessageBox(e.what(), "Cloudpong Error", wxOK | wxICON_ERROR);
+    }
+    return rc;
 }

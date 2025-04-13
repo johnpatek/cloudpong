@@ -1,6 +1,8 @@
 #ifndef CLIENT_HPP
 #define CLIENT_HPP
 
+#include <memory>
+
 #include <SDL3/SDL.h>
 
 #include <wx/wx.h>
@@ -18,7 +20,7 @@ namespace client
         bool _running = false;
     };
 
-    int run(int argc, const char **argv);
+    void run(int argc, const char **argv);
 }
 
 #endif // CLIENT_HPP
