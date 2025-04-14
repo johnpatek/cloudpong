@@ -1,13 +1,13 @@
 #include <client.hpp>
 
-
-void client::run(int argc, const char **argv)
+bool client::app::OnInit()
 {
-    std::unique_ptr<client::app> app(new client::app());
-    wxApp::SetInstance(app.get()));  // REQUIRED
-    wxEntryStart(argc, argv);
-    wxTheApp->CallOnInit();
-    wxTheApp->OnRun();
-    wxTheApp->OnExit();
-    wxEntryCleanup();
+    MyFrame *frame = new MyFrame();
+    frame->Show(true);
+    return true;
+}
+
+int client::app::OnExit()
+{
+    return 0;
 }

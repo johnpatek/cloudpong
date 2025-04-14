@@ -31,9 +31,7 @@ bool MyApp::OnInit()
     return true;
 }
 
-#ifdef __WXMSW__
-wxIMPLEMENT_APP_NO_MAIN(MyApp);
-#endif
+
 
 int main(int argc, char **argv)
 {
@@ -52,17 +50,4 @@ int main(int argc, char **argv)
 
 #include <client.hpp>
 
-int main(int argc, const char **argv)
-{
-    int rc(EXIT_SUCCESS);
-    try
-    {
-        client::run(argc, argv);
-    }
-    catch(const std::exception& e)
-    {
-        rc = EXIT_FAILURE;
-        wxMessageBox(e.what(), "Cloudpong Error", wxOK | wxICON_ERROR);
-    }
-    return rc;
-}
+wxIMPLEMENT_APP(client::app);

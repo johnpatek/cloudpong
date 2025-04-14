@@ -9,10 +9,10 @@
 
 namespace protocol
 {
-    class json_readable
+    class json_message
     {
     public:
-        virtual yyjson_val *read(yyjson_doc *doc) = 0;
+        virtual void read(const yyjson_doc *doc) = 0;
     };
 
     struct connect_request

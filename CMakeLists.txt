@@ -4,7 +4,6 @@ project(cloudpong)
 
 include(FetchContent)
 
-
 # protocol dependencies
 FetchContent_Declare(
   yyjson
@@ -25,7 +24,16 @@ set(CIVETWEB_BUILD_TESTING OFF CACHE BOOL "" FORCE)  # Disable tests
 set(CIVETWEB_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)  # Disable examples
 FetchContent_MakeAvailable(civetweb)
 
+# protocol library
+file(GLOB PROTOCOL_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/protocol/*.cpp)
+add_library(protocol STATIC ${PROTOCOL_SOURCES})
+target_include_directories(protocol PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/protocol)
+target_link_libraries(protocol PUBLIC yyjson civetweb-cpp)
+
 # server dependencies
+
+# server executable
+add_executable(cloudpongd ${CMAKE_CURRENT_SOURCE_DIR}/server/main.cpp)
 
 
 # client dependencies
@@ -46,8 +54,15 @@ FetchContent_Declare(
 set(wxBUILD_SHARED OFF CACHE BOOL "" FORCE)
 set(wxBUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(wxBUILD_SAMPLES OFF CACHE BOOL "" FORCE)
+set(wxUSE_WEBVIEW_EDGE ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(wxWidgets)
 
-add_executable(cloudpong client/main.cpp)
-target_link_libraries(cloudpong PRIVATE wx::core wx::base SDL3-static)
+# client executable
+if(WIN32)
+add_executable(cloudpong WIN32 client/main.cpp client/client.cpp)
+else()
+add_executable(cloudpong client/main.cpp client/client.cpp)
+endif()
+target_include_directories(cloudpong PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/client)
+target_link_libraries(cloudpong PRIVATE wx::core wx::base wx::webview SDL3-static protocol)
 
