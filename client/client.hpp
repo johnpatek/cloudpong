@@ -10,6 +10,13 @@
 
 namespace client 
 {
+    class window : public wxFrame
+    {
+    public:
+        window(const wxString &title, const wxPoint &pos, const wxSize &size);
+        ~window() override;
+    };
+
     class app : public wxApp
     {
     public:
