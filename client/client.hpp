@@ -20,28 +20,12 @@ namespace client
     public:
         MyFrame() : wxFrame(nullptr, wxID_ANY, "Input Collection Example", wxDefaultPosition, wxSize(600, 400))
         {
-            wxWebView *webView = wxWebView::New(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxWebViewBackendEdge);
+            wxWebView *webView = wxWebView::New(this, wxID_ANY, "", wxDefaultPosition, GetSize(), wxWebViewBackendEdge);
             if(!webView)
             {
                 wxMessageBox("Failed to create web view", "Error", wxOK | wxICON_ERROR);
                 return;
             }
-                    webView->LoadString(
-                        "<!DOCTYPE html>"
-                        "<html>"
-                        "<head><title>Input Event</title></head>"
-                        "<body>"
-                            "<input type=\"text\" id=\"userInput\" placeholder=\"Enter something...\" />"
-                            "<button onclick=\"submitValue()\">Submit</button>"
-                            "<script>"
-                            "function submitValue() {"
-                                "const text = document.getElementById(\'userInput\').value;"
-                                "const encoded = encodeURIComponent(text);"
-                                "window.location = \'event://submit/\' + encoded;"
-                            "}"
-                            "</script>"
-                        "</body>"
-                        "</html>","");
             
             webView->Bind(wxEVT_WEBVIEW_NAVIGATING, &MyFrame::OnWebEvent, this);
             auto sizer = new wxBoxSizer(wxVERTICAL);
